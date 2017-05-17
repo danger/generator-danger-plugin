@@ -161,6 +161,7 @@ export default class extends Generator {
     this.fs.copy(this.templatePath('babelrc'), this.destinationPath('.babelrc'))
 
     this.fs.copyTpl(this.templatePath('src/**'), this.destinationPath('src'), {
+      ...this.props,
       pluginFunctionName,
     })
 
