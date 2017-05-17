@@ -90,6 +90,11 @@ export default class extends Generator {
       this.destinationPath('CODE_OF_CONDUCT.md'),
       _.pick(this.props, ['authorEmail'])
     )
+
+    this.fs.copy(
+      this.templatePath('editorconfig'),
+      this.destinationPath('.editorconfig')
+    )
   }
 
   install() {
