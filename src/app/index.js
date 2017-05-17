@@ -100,6 +100,11 @@ export default class extends Generator {
       this.templatePath('gitignore'),
       this.destinationPath('.gitignore')
     )
+
+    this.fs.copy(
+      this.templatePath('npmignore'),
+      this.destinationPath('.npmignore')
+    )
   }
 
   install() {
