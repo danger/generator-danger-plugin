@@ -91,6 +91,12 @@ export default class extends Generator {
       _.pick(this.props, ['authorEmail'])
     )
 
+    this.fs.copyTpl(
+      this.templatePath('LICENSE.md'),
+      this.destinationPath('LICENSE.md'),
+      { year: new Date().getUTCFullYear(), authorName: this.props.authorName }
+    )
+
     this.fs.copy(
       this.templatePath('editorconfig'),
       this.destinationPath('.editorconfig')
