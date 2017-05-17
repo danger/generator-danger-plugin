@@ -1,0 +1,52 @@
+import assert from 'yeoman-assert'
+import helpers from 'yeoman-test'
+import fs from 'fs'
+
+jest.mock('npm-name', () => () => Promise.resolve(true))
+jest.mock('./values', () => ({
+  defaultName: () => Promise.resolve('Git Name'),
+  defaultEmail: () => Promise.resolve('git@git.com'),
+}))
+
+function readFile(filename, json) {
+  const file = fs.readFileSync(filename, 'utf8')
+  return json ? JSON.parse(file) : file
+}
+
+describe('generator:app', () => {
+  it('creates files with supplied prompts', async () => {
+    await helpers.run(__dirname).withPrompts({
+      pluginName: 'danger-plugin-fun-time',
+      description: 'Danger plugin that tells you to have a fun time',
+      authorName: 'Macklin Underdown',
+      authorEmail: 'email@example.com',
+    })
+    assert.file(['package.json'])
+  })
+  it('fills package.json with correct information', async () => {
+    await helpers.run(__dirname).withPrompts({
+      pluginName: 'danger-plugin-fun-time',
+      description: 'Danger plugin that tells you to have a fun time',
+      authorName: 'Macklin Underdown',
+      authorEmail: 'email@example.com',
+    })
+    const pkg = readFile('package.json', true)
+    expect(pkg).toMatchSnapshot()
+  })
+  it('uses git user.name as default name prompt value', async () => {
+    await helpers.run(__dirname).withPrompts({
+      pluginName: 'danger-plugin-fun-time',
+      description: 'Danger plugin that tells you to have a fun time',
+    })
+    const pkg = readFile('package.json', true)
+    expect(pkg.author.name).toEqual('Git Name')
+  })
+  it('uses git user.email as default email prompt value', async () => {
+    await helpers.run(__dirname).withPrompts({
+      pluginName: 'danger-plugin-fun-time',
+      description: 'Danger plugin that tells you to have a fun time',
+    })
+    const pkg = readFile('package.json', true)
+    expect(pkg.author.email).toEqual('git@git.com')
+  })
+})

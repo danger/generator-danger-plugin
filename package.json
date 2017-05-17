@@ -2,15 +2,23 @@
   "name": "generator-danger-plugin",
   "version": "0.0.0-development",
   "description": "Generate a Danger plugin",
-  "main": "index.js",
+  "main": "generators/app/index.js",
+  "files": [
+    "generators",
+    ".babelrc",
+    ".eslintignore",
+    "yarn.lock"
+  ],
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6.0.0"
   },
   "scripts": {
     "precommit": "lint-staged",
     "commit": "git-cz",
     "commitmsg": "validate-commit-msg",
     "test": "jest",
+    "build": "babel src -d generators --ignore test.js,__snapshots__ --copy-files",
+    "prepublish": "npm run build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "keywords": [
@@ -28,6 +36,11 @@
     "url": "https://github.com/macklinu/generator-danger-plugin.git"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-jest": "^20.0.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-env": "^1.4.0",
+    "babel-preset-stage-2": "^6.24.1",
     "commitizen": "^2.9.6",
     "cz-conventional-changelog": "^2.0.0",
     "husky": "^0.13.3",
@@ -44,8 +57,8 @@
     "generator-node": "^2.1.0",
     "inquirer-npm-name": "^2.0.0",
     "lodash": "^4.17.4",
-    "yeoman-generator": "^1.1.1",
-    "yosay": "^2.0.0"
+    "mkdirp": "^0.5.1",
+    "yeoman-generator": "^1.1.1"
   },
   "config": {
     "commitizen": {
