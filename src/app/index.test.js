@@ -24,6 +24,7 @@ describe('generator:app', () => {
     assert.file([
       'package.json',
       'CODE_OF_CONDUCT.md',
+      'LICENSE.md',
       '.editorconfig',
       '.gitignore',
       '.npmignore',
@@ -38,6 +39,18 @@ describe('generator:app', () => {
         authorEmail: 'email@example.com',
       })
       assert.fileContent('CODE_OF_CONDUCT.md', 'email@example.com')
+    })
+  })
+  describe('LICENSE.md', () => {
+    it('contains the current year and author name', async () => {
+      Date.prototype.getUTCFullYear = jest.fn(() => 2017)
+      await helpers.run(__dirname).withPrompts({
+        pluginName: 'danger-plugin-fun-time',
+        description: 'Danger plugin that tells you to have a fun time',
+        authorName: 'Macklin Underdown',
+        authorEmail: 'email@example.com',
+      })
+      assert.fileContent('LICENSE.md', /2017 Macklin Underdown/g)
     })
   })
   describe('package.json', () => {
