@@ -1,0 +1,3 @@
+describe('<%= pluginFunctionName %>', () => {
+  it('does something')
+})

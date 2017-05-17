@@ -30,7 +30,29 @@ describe('generator:app', () => {
       '.gitignore',
       '.npmignore',
       '.esdoc.json',
+      'src/index.js',
+      'src/index.test.js',
     ])
+  })
+  describe('src/', () => {
+    it('generates source file based on plugin name', async () => {
+      await helpers.run(__dirname).withPrompts({
+        pluginName: 'danger-plugin-fun-time',
+        description: 'Danger plugin that tells you to have a fun time',
+        authorName: 'Macklin Underdown',
+        authorEmail: 'email@example.com',
+      })
+      assert.fileContent('src/index.js', 'funTime()')
+    })
+    it('generates source file based on plugin name', async () => {
+      await helpers.run(__dirname).withPrompts({
+        pluginName: 'danger-plugin-fun-time',
+        description: 'Danger plugin that tells you to have a fun time',
+        authorName: 'Macklin Underdown',
+        authorEmail: 'email@example.com',
+      })
+      assert.fileContent('src/index.test.js', 'funTime()')
+    })
   })
   describe('CODE_OF_CONDUCT.md', () => {
     it('contains author email', async () => {

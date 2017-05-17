@@ -14,6 +14,13 @@ function makeGeneratorName(name) {
   name = name.indexOf(PLUGIN_PREFIX) === 0 ? name : PLUGIN_PREFIX + name
   return name
 }
+
+function makePluginFunctionName(name) {
+  const functionName = _.camelCase(
+    name.substring(PLUGIN_PREFIX.length, name.length)
+  )
+  return `${functionName}()`
+}
 export default class extends Generator {
   initializing() {
     this.props = {}
@@ -118,6 +125,18 @@ export default class extends Generator {
     )
 
     this.fs.copy(this.templatePath('babelrc'), this.destinationPath('.babelrc'))
+
+    this.fs.copyTpl(
+      this.templatePath('src/index'),
+      this.destinationPath('src/index.js'),
+      { pluginFunctionName: makePluginFunctionName(this.props.pluginName) }
+    )
+
+    this.fs.copyTpl(
+      this.templatePath('src/index.test'),
+      this.destinationPath('src/index.test.js'),
+      { pluginFunctionName: makePluginFunctionName(this.props.pluginName) }
+    )
   }
 
   install() {
