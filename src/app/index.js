@@ -111,6 +111,11 @@ export default class extends Generator {
       this.templatePath('npmignore'),
       this.destinationPath('.npmignore')
     )
+
+    this.fs.copy(
+      this.templatePath('esdoc.json'),
+      this.destinationPath('.esdoc.json')
+    )
   }
 
   install() {
