@@ -21,7 +21,12 @@ describe('generator:app', () => {
       authorName: 'Macklin Underdown',
       authorEmail: 'email@example.com',
     })
-    assert.file(['package.json', 'CODE_OF_CONDUCT.md', '.editorconfig'])
+    assert.file([
+      'package.json',
+      'CODE_OF_CONDUCT.md',
+      '.editorconfig',
+      '.gitignore',
+    ])
   })
   describe('CODE_OF_CONDUCT.md', () => {
     it('contains author email', async () => {
