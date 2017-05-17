@@ -27,6 +27,14 @@
   "engines": {
     "node": ">=4.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "<%= githubBaseUrl %>.git"
+  },
+  "bugs": {
+    "url": "<%= githubBaseUrl %>/issues"
+  },
+  "homepage": "<%= githubBaseUrl %>#readme",
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-jest": "^20.0.1",

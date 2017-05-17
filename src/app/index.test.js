@@ -6,11 +6,12 @@ jest.mock('npm-name', () => () => Promise.resolve(true))
 jest.mock('./values', () => ({
   defaultName: () => Promise.resolve('Git Name'),
   defaultEmail: () => Promise.resolve('git@git.com'),
+  defaultGitHubUsername: () => Promise.resolve('macklinu'),
 }))
 
-function readFile(filename, json) {
+function readFile(filename, json = false) {
   const file = fs.readFileSync(filename, 'utf8')
-  return json ? JSON.parse(file) : file
+  return filename.endsWith('.json') || json ? JSON.parse(file) : file
 }
 
 describe('generator:app', () => {
@@ -22,6 +23,8 @@ describe('generator:app', () => {
       authorEmail: 'email@example.com',
     })
     assert.file([
+      'README.md',
+      'CONTRIBUTING.md',
       'package.json',
       'CODE_OF_CONDUCT.md',
       'LICENSE.md',
@@ -38,24 +41,33 @@ describe('generator:app', () => {
       'types/types.test.js',
     ])
   })
-  describe('src/', () => {
-    it('generates source file based on plugin name', async () => {
+  describe('README.md', () => {
+    beforeEach(async () => {
       await helpers.run(__dirname).withPrompts({
         pluginName: 'danger-plugin-fun-time',
         description: 'Danger plugin that tells you to have a fun time',
         authorName: 'Macklin Underdown',
         authorEmail: 'email@example.com',
       })
-      assert.fileContent('src/index.js', 'funTime()')
+    })
+    it('contains plugin name', () => {
+      expect(readFile('README.md')).toMatchSnapshot()
+    })
+  })
+  describe('src/', () => {
+    beforeEach(async () => {
+      await helpers.run(__dirname).withPrompts({
+        pluginName: 'danger-plugin-fun-time',
+        description: 'Danger plugin that tells you to have a fun time',
+        authorName: 'Macklin Underdown',
+        authorEmail: 'email@example.com',
+      })
+    })
+    it('generates source file based on plugin name', async () => {
+      expect(readFile('src/index.js')).toMatchSnapshot()
     })
     it('generates test file based on plugin name', async () => {
-      await helpers.run(__dirname).withPrompts({
-        pluginName: 'danger-plugin-fun-time',
-        description: 'Danger plugin that tells you to have a fun time',
-        authorName: 'Macklin Underdown',
-        authorEmail: 'email@example.com',
-      })
-      assert.fileContent('src/index.test.js', 'funTime()')
+      expect(readFile('src/index.test.js')).toMatchSnapshot()
     })
   })
   describe('types/', () => {
@@ -68,16 +80,10 @@ describe('generator:app', () => {
       })
     })
     it('generates TypeScript type defintion', () => {
-      assert.fileContent(
-        'types/index.d.ts',
-        'export default function jestTestRunner(): void'
-      )
+      expect(readFile('types/index.d.ts')).toMatchSnapshot()
     })
     it('generates TypeScript test file', () => {
-      assert.fileContent(
-        'types/test.ts',
-        `import jestTestRunner from './'\n\njestTestRunner()`
-      )
+      expect(readFile('types/test.ts')).toMatchSnapshot()
     })
   })
   describe('CODE_OF_CONDUCT.md', () => {
@@ -88,7 +94,7 @@ describe('generator:app', () => {
         authorName: 'Macklin Underdown',
         authorEmail: 'email@example.com',
       })
-      assert.fileContent('CODE_OF_CONDUCT.md', 'email@example.com')
+      expect(readFile('CODE_OF_CONDUCT.md')).toMatchSnapshot()
     })
   })
   describe('LICENSE.md', () => {
@@ -100,7 +106,7 @@ describe('generator:app', () => {
         authorName: 'Macklin Underdown',
         authorEmail: 'email@example.com',
       })
-      assert.fileContent('LICENSE.md', /2017 Macklin Underdown/g)
+      expect(readFile('LICENSE.md')).toMatchSnapshot()
     })
   })
   describe('package.json', () => {
@@ -110,8 +116,9 @@ describe('generator:app', () => {
         description: 'Danger plugin that tells you to have a fun time',
         authorName: 'Macklin Underdown',
         authorEmail: 'email@example.com',
+        githubUsername: 'macklinu',
       })
-      const pkg = readFile('package.json', true)
+      const pkg = readFile('package.json')
       expect(pkg).toMatchSnapshot()
     })
     it('uses git user.name as default name prompt value', async () => {
@@ -119,7 +126,7 @@ describe('generator:app', () => {
         pluginName: 'danger-plugin-fun-time',
         description: 'Danger plugin that tells you to have a fun time',
       })
-      const pkg = readFile('package.json', true)
+      const pkg = readFile('package.json')
       expect(pkg.author.name).toEqual('Git Name')
     })
     it('uses git user.email as default email prompt value', async () => {
@@ -127,7 +134,7 @@ describe('generator:app', () => {
         pluginName: 'danger-plugin-fun-time',
         description: 'Danger plugin that tells you to have a fun time',
       })
-      const pkg = readFile('package.json', true)
+      const pkg = readFile('package.json')
       expect(pkg.author.email).toEqual('git@git.com')
     })
   })

@@ -28,3 +28,7 @@ export async function defaultName() {
     Promise.resolve(null)
   )
 }
+
+export async function defaultGitHubUsername() {
+  return (await gitConfig('global', 'github.user')) || Promise.resolve(null)
+}
