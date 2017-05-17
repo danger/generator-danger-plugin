@@ -60,6 +60,12 @@
     "mkdirp": "^0.5.1",
     "yeoman-generator": "^1.1.1"
   },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/app/src/templates/src/"
+    ]
+  },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
