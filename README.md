@@ -8,10 +8,10 @@
 
 ## Usage
 
-Install `yo` and this generator:
+Install `yo`, this generator, and [semantic-release-cli](https://github.com/semantic-release/cli):
 
 ```sh
-$ npm i -g yo generator-danger-plugin
+$ npm i -g yo generator-danger-plugin semantic-release-cli
 ```
 
 Run the generator and follow the prompts to create a Danger plugin:

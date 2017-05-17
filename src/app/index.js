@@ -5,6 +5,7 @@ import _ from 'lodash'
 import mkdirp from 'mkdirp'
 import rename from 'gulp-rename'
 import githubUrl from 'github-url-from-username-repo'
+import chalk from 'chalk'
 
 import { defaultEmail, defaultGitHubUsername, defaultName } from './values'
 import * as validators from './validators'
@@ -171,10 +172,16 @@ export default class extends Generator {
   }
 
   install() {
-    if (this.props.useYarn) {
-      this.yarnInstall()
-    } else {
-      this.npmInstall()
-    }
+    this.installDependencies({
+      yarn: this.props.useYarn,
+      npm: !this.props.useYarn,
+      bower: false,
+      callback: () => {
+        this.log(
+          '\nDependencies have been installed. ' +
+            `Now run ${chalk.yellow('semantic-release-cli setup')} to finish!`
+        )
+      },
+    })
   }
 }
