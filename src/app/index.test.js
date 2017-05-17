@@ -28,6 +28,7 @@ describe('generator:app', () => {
       '.editorconfig',
       '.gitignore',
       '.npmignore',
+      '.esdoc.json',
     ])
   })
   describe('CODE_OF_CONDUCT.md', () => {
