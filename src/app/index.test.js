@@ -25,6 +25,7 @@ describe('generator:app', () => {
       'package.json',
       'CODE_OF_CONDUCT.md',
       'LICENSE.md',
+      '.babelrc',
       '.editorconfig',
       '.gitignore',
       '.npmignore',

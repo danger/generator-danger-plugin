@@ -116,6 +116,8 @@ export default class extends Generator {
       this.templatePath('esdoc.json'),
       this.destinationPath('.esdoc.json')
     )
+
+    this.fs.copy(this.templatePath('babelrc'), this.destinationPath('.babelrc'))
   }
 
   install() {
