@@ -26,6 +26,7 @@ describe('generator:app', () => {
       'CODE_OF_CONDUCT.md',
       '.editorconfig',
       '.gitignore',
+      '.npmignore',
     ])
   })
   describe('CODE_OF_CONDUCT.md', () => {
