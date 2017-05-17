@@ -167,8 +167,11 @@ Object {
 `;
 
 exports[`generator:app src/ generates source file based on plugin name 1`] = `
-"export default function funTime() {
-
+"/**
+ * Danger plugin that tells you to have a fun time
+ */
+export default function funTime() {
+  // TODO
 }
 "
 `;
