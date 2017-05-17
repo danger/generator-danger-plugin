@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`generator:app fills package.json with correct information 1`] = `
+exports[`generator:app package.json fills package.json with correct information 1`] = `
 Object {
   "author": Object {
     "email": "email@example.com",

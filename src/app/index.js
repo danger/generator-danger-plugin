@@ -84,6 +84,12 @@ export default class extends Generator {
         'authorEmail',
       ])
     )
+
+    this.fs.copyTpl(
+      this.templatePath('CODE_OF_CONDUCT.md'),
+      this.destinationPath('CODE_OF_CONDUCT.md'),
+      _.pick(this.props, ['authorEmail'])
+    )
   }
 
   install() {
