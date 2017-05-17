@@ -4,8 +4,9 @@ import askName from 'inquirer-npm-name'
 import _ from 'lodash'
 import mkdirp from 'mkdirp'
 import rename from 'gulp-rename'
+import githubUrl from 'github-url-from-username-repo'
 
-import { defaultEmail, defaultName } from './values'
+import { defaultEmail, defaultGitHubUsername, defaultName } from './values'
 import * as validators from './validators'
 
 const PLUGIN_PREFIX = 'danger-plugin-'
@@ -55,6 +56,12 @@ export default class extends Generator {
         default: async () => await defaultEmail(),
       },
       {
+        type: 'input',
+        name: 'githubUsername',
+        message: 'What is your GitHub username?',
+        default: async () => await defaultGitHubUsername(),
+      },
+      {
         type: 'confirm',
         name: 'useYarn',
         message: 'Use Yarn?',
@@ -62,7 +69,10 @@ export default class extends Generator {
       },
     ])
 
-    this.props = { pluginName, ...otherPromptOptions }
+    this.props = {
+      pluginName,
+      ...otherPromptOptions,
+    }
   }
 
   default() {
@@ -79,6 +89,10 @@ export default class extends Generator {
   }
 
   writing() {
+    const pluginFunctionName = makePluginFunctionName(this.props.pluginName)
+    const repoSlug = `${this.props.githubUsername}/${this.props.pluginName}`
+    const githubBaseUrl = githubUrl(repoSlug)
+
     this.registerTransformStream(
       rename(path => {
         if (path.basename === 'index' && !path.extname) {
@@ -95,14 +109,20 @@ export default class extends Generator {
     )
 
     this.fs.copyTpl(
+      this.templatePath('README.md'),
+      this.destinationPath('README.md'),
+      { ...this.props, pluginFunctionName, githubBaseUrl, repoSlug }
+    )
+
+    this.fs.copy(
+      this.templatePath('CONTRIBUTING.md'),
+      this.destinationPath('CONTRIBUTING.md')
+    )
+
+    this.fs.copyTpl(
       this.templatePath('package.json'),
       this.destinationPath('package.json'),
-      _.pick(this.props, [
-        'pluginName',
-        'description',
-        'authorName',
-        'authorEmail',
-      ])
+      { ...this.props, githubBaseUrl }
     )
 
     this.fs.copyTpl(
@@ -138,8 +158,6 @@ export default class extends Generator {
     )
 
     this.fs.copy(this.templatePath('babelrc'), this.destinationPath('.babelrc'))
-
-    const pluginFunctionName = makePluginFunctionName(this.props.pluginName)
 
     this.fs.copyTpl(this.templatePath('src/**'), this.destinationPath('src'), {
       pluginFunctionName,

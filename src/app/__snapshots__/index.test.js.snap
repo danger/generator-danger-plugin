@@ -1,10 +1,109 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`generator:app CODE_OF_CONDUCT.md contains author email 1`] = `
+"# Contributor Covenant Code of Conduct
+
+## Our Pledge
+
+In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
+
+## Our Standards
+
+Examples of behavior that contributes to creating a positive environment include:
+
+* Using welcoming and inclusive language
+* Being respectful of differing viewpoints and experiences
+* Gracefully accepting constructive criticism
+* Focusing on what is best for the community
+* Showing empathy towards other community members
+
+Examples of unacceptable behavior by participants include:
+
+* The use of sexualized language or imagery and unwelcome sexual attention or advances
+* Trolling, insulting/derogatory comments, and personal or political attacks
+* Public or private harassment
+* Publishing others' private information, such as a physical or electronic address, without explicit permission
+* Other conduct which could reasonably be considered inappropriate in a professional setting
+
+## Our Responsibilities
+
+Project maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take appropriate and fair corrective action in response to any instances of unacceptable behavior.
+
+Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.
+
+## Scope
+
+This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community. Examples of representing a project or community include using an official project e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.
+
+## Enforcement
+
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at email@example.com. The project team will review and investigate all complaints, and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.
+
+Project maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.
+
+## Attribution
+
+This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4, available at [http://contributor-covenant.org/version/1/4][version]
+
+[homepage]: http://contributor-covenant.org
+[version]: http://contributor-covenant.org/version/1/4/
+"
+`;
+
+exports[`generator:app LICENSE.md contains the current year and author name 1`] = `
+"Copyright 2017 Macklin Underdown
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \\"Software\\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \\"AS IS\\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"
+`;
+
+exports[`generator:app README.md contains plugin name 1`] = `
+"# danger-plugin-fun-time
+
+[![Build Status](https://travis-ci.org/macklinu/danger-plugin-fun-time.svg?branch=master)](https://travis-ci.org/macklinu/danger-plugin-fun-time)
+[![npm version](https://badge.fury.io/js/danger-plugin-fun-time.svg)](https://badge.fury.io/js/danger-plugin-fun-time)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+
+Danger plugin that tells you to have a fun time
+
+## Usage
+
+Install:
+
+\`\`\`sh
+yarn add danger-plugin-fun-time --dev
+\`\`\`
+
+At a glance:
+
+\`\`\`js
+// dangerfile.js
+import funTime from 'danger-plugin-fun-time'
+
+funTime()
+\`\`\`
+## Changelog
+
+See the GitHub [release history](https://github.com/macklinu/danger-plugin-fun-time/releases).
+
+## Contributing
+
+See [CONTRIBUTING.md](contributing.md).
+"
+`;
+
 exports[`generator:app package.json fills package.json with correct information 1`] = `
 Object {
   "author": Object {
     "email": "email@example.com",
     "name": "Macklin Underdown",
+  },
+  "bugs": Object {
+    "url": "https://github.com/macklinu/danger-plugin-fun-time/issues",
   },
   "config": Object {
     "commitizen": Object {
@@ -30,6 +129,7 @@ Object {
   "engines": Object {
     "node": ">=4.0.0",
   },
+  "homepage": "https://github.com/macklinu/danger-plugin-fun-time#readme",
   "keywords": Array [
     "danger",
     "danger-plugin",
@@ -46,6 +146,10 @@ Object {
   "optionalDependencies": Object {
     "esdoc": "^0.5.2",
   },
+  "repository": Object {
+    "type": "git",
+    "url": "https://github.com/macklinu/danger-plugin-fun-time.git",
+  },
   "scripts": Object {
     "build": "babel src --out-dir dist --ignore *.test.js",
     "commit": "git-cz",
@@ -60,4 +164,30 @@ Object {
   "types": "types/index.d.ts",
   "version": "0.0.0-development",
 }
+`;
+
+exports[`generator:app src/ generates source file based on plugin name 1`] = `
+"export default function funTime() {
+
+}
+"
+`;
+
+exports[`generator:app src/ generates test file based on plugin name 1`] = `
+"describe('funTime()', () => {
+  it('does something')
+})
+"
+`;
+
+exports[`generator:app types/ generates TypeScript test file 1`] = `
+"import jestTestRunner from './'
+
+jestTestRunner()
+"
+`;
+
+exports[`generator:app types/ generates TypeScript type defintion 1`] = `
+"export default function jestTestRunner(): void
+"
 `;
