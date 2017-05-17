@@ -3,6 +3,7 @@ import Generator from 'yeoman-generator'
 import askName from 'inquirer-npm-name'
 import _ from 'lodash'
 import mkdirp from 'mkdirp'
+import rename from 'gulp-rename'
 
 import { defaultEmail, defaultName } from './values'
 import * as validators from './validators'
@@ -16,10 +17,7 @@ function makeGeneratorName(name) {
 }
 
 function makePluginFunctionName(name) {
-  const functionName = _.camelCase(
-    name.substring(PLUGIN_PREFIX.length, name.length)
-  )
-  return `${functionName}()`
+  return _.camelCase(name.substring(PLUGIN_PREFIX.length, name.length))
 }
 export default class extends Generator {
   initializing() {
@@ -81,6 +79,21 @@ export default class extends Generator {
   }
 
   writing() {
+    this.registerTransformStream(
+      rename(path => {
+        if (path.basename === 'index' && !path.extname) {
+          path.extname = '.js'
+        }
+
+        if (path.extname === '.test') {
+          path.basename += '.test'
+          path.extname = '.js'
+        }
+
+        return path
+      })
+    )
+
     this.fs.copyTpl(
       this.templatePath('package.json'),
       this.destinationPath('package.json'),
@@ -126,16 +139,16 @@ export default class extends Generator {
 
     this.fs.copy(this.templatePath('babelrc'), this.destinationPath('.babelrc'))
 
-    this.fs.copyTpl(
-      this.templatePath('src/index'),
-      this.destinationPath('src/index.js'),
-      { pluginFunctionName: makePluginFunctionName(this.props.pluginName) }
-    )
+    const pluginFunctionName = makePluginFunctionName(this.props.pluginName)
+
+    this.fs.copyTpl(this.templatePath('src/**'), this.destinationPath('src'), {
+      pluginFunctionName,
+    })
 
     this.fs.copyTpl(
-      this.templatePath('src/index.test'),
-      this.destinationPath('src/index.test.js'),
-      { pluginFunctionName: makePluginFunctionName(this.props.pluginName) }
+      this.templatePath('types/**'),
+      this.destinationPath('types'),
+      { pluginFunctionName }
     )
   }
 

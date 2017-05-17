@@ -1,0 +1,3 @@
+import <%= pluginFunctionName %> from './'
+
+<%= pluginFunctionName %>()

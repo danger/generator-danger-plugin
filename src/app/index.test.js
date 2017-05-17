@@ -32,6 +32,10 @@ describe('generator:app', () => {
       '.esdoc.json',
       'src/index.js',
       'src/index.test.js',
+      'types/index.d.ts',
+      'types/test.ts',
+      'types/tsconfig.json',
+      'types/types.test.js',
     ])
   })
   describe('src/', () => {
@@ -44,7 +48,7 @@ describe('generator:app', () => {
       })
       assert.fileContent('src/index.js', 'funTime()')
     })
-    it('generates source file based on plugin name', async () => {
+    it('generates test file based on plugin name', async () => {
       await helpers.run(__dirname).withPrompts({
         pluginName: 'danger-plugin-fun-time',
         description: 'Danger plugin that tells you to have a fun time',
@@ -52,6 +56,28 @@ describe('generator:app', () => {
         authorEmail: 'email@example.com',
       })
       assert.fileContent('src/index.test.js', 'funTime()')
+    })
+  })
+  describe('types/', () => {
+    beforeEach(async () => {
+      await helpers.run(__dirname).withPrompts({
+        pluginName: 'danger-plugin-jest-test-runner',
+        description: 'Danger plugin that runs Jest tests',
+        authorName: 'Macklin Underdown',
+        authorEmail: 'email@example.com',
+      })
+    })
+    it('generates TypeScript type defintion', () => {
+      assert.fileContent(
+        'types/index.d.ts',
+        'export default function jestTestRunner(): void'
+      )
+    })
+    it('generates TypeScript test file', () => {
+      assert.fileContent(
+        'types/test.ts',
+        `import jestTestRunner from './'\n\njestTestRunner()`
+      )
     })
   })
   describe('CODE_OF_CONDUCT.md', () => {
