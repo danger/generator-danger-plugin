@@ -9,6 +9,7 @@ import chalk from 'chalk'
 
 import { defaultEmail, defaultGitHubUsername, defaultName } from './values'
 import * as validators from './validators'
+import { defaultPackageJson } from './defaults'
 
 const PLUGIN_PREFIX = 'danger-plugin-'
 
@@ -21,6 +22,7 @@ function makeGeneratorName(name) {
 function makePluginFunctionName(name) {
   return _.camelCase(name.substring(PLUGIN_PREFIX.length, name.length))
 }
+
 export default class extends Generator {
   initializing() {
     this.props = {}
@@ -43,6 +45,12 @@ export default class extends Generator {
         name: 'description',
         message: 'Provide a brief description of the Danger plugin:',
         validate: validators.description,
+      },
+      {
+        type: 'input',
+        name: 'keywords',
+        message: `Any additional package keywords (besides ${chalk.yellow('danger')} and ${chalk.yellow('danger-plugin')})?`,
+        filter: words => words.split(/\s*,\s*/g),
       },
       {
         type: 'input',
@@ -109,6 +117,30 @@ export default class extends Generator {
       })
     )
 
+    const pkg = Object.assign(
+      {
+        name: this.props.pluginName,
+        description: this.props.description,
+        author: {
+          name: this.props.authorName,
+          email: this.props.authorEmail,
+        },
+        repository: {
+          type: 'git',
+          url: `${githubBaseUrl}.git`,
+        },
+        bugs: {
+          url: `${githubBaseUrl}/issues`,
+        },
+        homepage: `${githubBaseUrl}#readme`,
+        keywords: _.uniq(
+          ['danger', 'danger-plugin'].concat(this.props.keywords || [])
+        ),
+      },
+      defaultPackageJson
+    )
+    this.fs.writeJSON(this.destinationPath('package.json'), pkg)
+
     this.fs.copyTpl(
       this.templatePath('README.md'),
       this.destinationPath('README.md'),
@@ -118,12 +150,6 @@ export default class extends Generator {
     this.fs.copy(
       this.templatePath('CONTRIBUTING.md'),
       this.destinationPath('CONTRIBUTING.md')
-    )
-
-    this.fs.copyTpl(
-      this.templatePath('package.json'),
-      this.destinationPath('package.json'),
-      { ...this.props, githubBaseUrl }
     )
 
     this.fs.copyTpl(

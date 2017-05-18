@@ -117,6 +117,7 @@ describe('generator:app', () => {
         authorName: 'Macklin Underdown',
         authorEmail: 'email@example.com',
         githubUsername: 'macklinu',
+        keywords: ['fun', 'time'],
       })
       const pkg = readFile('package.json')
       expect(pkg).toMatchSnapshot()

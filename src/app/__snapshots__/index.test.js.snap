@@ -133,6 +133,8 @@ Object {
   "keywords": Array [
     "danger",
     "danger-plugin",
+    "fun",
+    "time",
   ],
   "license": "MIT",
   "lint-staged": Object {
