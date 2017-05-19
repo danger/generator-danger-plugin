@@ -49,24 +49,28 @@ export default class extends Generator {
         name: 'authorName',
         message: 'What is your full name (for npm authorship)?',
         default: async () => await defaultName(),
+        store: true,
       },
       {
         type: 'input',
         name: 'authorEmail',
         message: 'What is your email (for npm authorship)?',
         default: async () => await defaultEmail(),
+        store: true,
       },
       {
         type: 'input',
         name: 'githubUsername',
         message: 'What is your GitHub username?',
         default: async () => await defaultGitHubUsername(),
+        store: true,
       },
       {
         type: 'confirm',
         name: 'useYarn',
         message: 'Use Yarn?',
         default: true,
+        store: true,
       },
     ])
 
