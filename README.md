@@ -21,7 +21,7 @@ Run the generator and follow the prompts to create a Danger plugin:
 $ yo danger-plugin
 ```
 
-This will create directory ready for Danger plugin development with the following technologies:
+This will create a new directory ready for Danger plugin development with the following technologies:
 
 * [Babel](https://babeljs.io/)
 * [Jest](http://facebook.github.io/jest/)
