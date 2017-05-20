@@ -15,7 +15,13 @@ const PLUGIN_PREFIX = 'danger-plugin-'
 
 function makeGeneratorName(name) {
   name = _.kebabCase(name)
-  name = name.indexOf(PLUGIN_PREFIX) === 0 ? name : PLUGIN_PREFIX + name
+
+  if (name.indexOf(PLUGIN_PREFIX) === 0) {
+    this.log(
+      "Adding 'danger-plugin' as a prefix, making it: " + PLUGIN_PREFIX + name
+    )
+    return PLUGIN_PREFIX + name
+  }
   return name
 }
 
