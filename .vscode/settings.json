@@ -3,5 +3,8 @@
     "**/.git": true,
     "generators": true,
     "node_modules": true
-  }
+  },
+  "prettier.semi": false,
+  "prettier.printWidth": 120,
+  "prettier.singleQuote": true
 }

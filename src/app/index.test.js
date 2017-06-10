@@ -14,13 +14,19 @@ function readFile(filename, json = false) {
   return filename.endsWith('.json') || json ? JSON.parse(file) : file
 }
 
+const exampleSettings = {
+  pluginName: 'danger-plugin-fun-time',
+  description: 'Danger plugin that tells you to have a fun time',
+  authorName: 'Macklin Underdown',
+  authorEmail: 'email@example.com',
+  githubUsername: 'macklinu',
+  keywords: ['fun', 'time'],
+}
+
 describe('generator:app', () => {
-  it('creates expected files', async () => {
+  it('creates expected JS files', async () => {
     await helpers.run(__dirname).withPrompts({
-      pluginName: 'danger-plugin-fun-time',
-      description: 'Danger plugin that tells you to have a fun time',
-      authorName: 'Macklin Underdown',
-      authorEmail: 'email@example.com',
+      ...exampleSettings,
       useTypeScript: false,
     })
     assert.file([
@@ -42,26 +48,45 @@ describe('generator:app', () => {
       'types/types.test.js',
     ])
   })
+  it('creates expected TS files', async () => {
+    await helpers.run(__dirname).withPrompts({
+      ...exampleSettings,
+      useTypeScript: true,
+    })
+    assert.file([
+      'README.md',
+      'CONTRIBUTING.md',
+      'package.json',
+      'CODE_OF_CONDUCT.md',
+      'LICENSE.md',
+      '.editorconfig',
+      '.gitignore',
+      '.npmignore',
+      'tsconfig.json',
+      'tslint.json',
+      'src/index.ts',
+      'src/index.test.ts',
+      '.vscode/settings.json',
+    ])
+    assert.noFile(['src/tsconfig.json', 'src/tslint.json'])
+  })
   describe('README.md', () => {
     beforeEach(async () => {
-      await helpers.run(__dirname).withPrompts({
-        pluginName: 'danger-plugin-fun-time',
-        description: 'Danger plugin that tells you to have a fun time',
-        authorName: 'Macklin Underdown',
-        authorEmail: 'email@example.com',
-      })
+      await helpers.run(__dirname).withPrompts(exampleSettings)
     })
-    it('contains plugin name', () => {
-      expect(readFile('README.md')).toMatchSnapshot()
+    it('contains plugin metadata', () => {
+      const readme = readFile('README.md')
+      expect(readme).toContain('danger-plugin-fun-time')
+      expect(readme).toContain(
+        'Danger plugin that tells you to have a fun time'
+      )
     })
   })
   describe('src/', () => {
     beforeEach(async () => {
       await helpers.run(__dirname).withPrompts({
-        pluginName: 'danger-plugin-fun-time',
-        description: 'Danger plugin that tells you to have a fun time',
-        authorName: 'Macklin Underdown',
-        authorEmail: 'email@example.com',
+        ...exampleSettings,
+        useTypeScript: false,
       })
     })
     it('generates source file based on plugin name', async () => {
@@ -74,10 +99,8 @@ describe('generator:app', () => {
   describe('types/', () => {
     beforeEach(async () => {
       await helpers.run(__dirname).withPrompts({
-        pluginName: 'danger-plugin-jest-test-runner',
-        description: 'Danger plugin that runs Jest tests',
-        authorName: 'Macklin Underdown',
-        authorEmail: 'email@example.com',
+        ...exampleSettings,
+        useTypeScript: false,
       })
     })
     it('generates TypeScript type defintion', () => {
@@ -89,36 +112,30 @@ describe('generator:app', () => {
   })
   describe('CODE_OF_CONDUCT.md', () => {
     it('contains author email', async () => {
-      await helpers.run(__dirname).withPrompts({
-        pluginName: 'danger-plugin-fun-time',
-        description: 'Danger plugin that tells you to have a fun time',
-        authorName: 'Macklin Underdown',
-        authorEmail: 'email@example.com',
-      })
+      await helpers.run(__dirname).withPrompts(exampleSettings)
       expect(readFile('CODE_OF_CONDUCT.md')).toMatchSnapshot()
     })
   })
   describe('LICENSE.md', () => {
     it('contains the current year and author name', async () => {
       Date.prototype.getUTCFullYear = jest.fn(() => 2017)
-      await helpers.run(__dirname).withPrompts({
-        pluginName: 'danger-plugin-fun-time',
-        description: 'Danger plugin that tells you to have a fun time',
-        authorName: 'Macklin Underdown',
-        authorEmail: 'email@example.com',
-      })
+      await helpers.run(__dirname).withPrompts(exampleSettings)
       expect(readFile('LICENSE.md')).toMatchSnapshot()
     })
   })
   describe('package.json', () => {
-    it('fills package.json with correct information', async () => {
+    it('fills package.json with correct JS information', async () => {
       await helpers.run(__dirname).withPrompts({
-        pluginName: 'danger-plugin-fun-time',
-        description: 'Danger plugin that tells you to have a fun time',
-        authorName: 'Macklin Underdown',
-        authorEmail: 'email@example.com',
-        githubUsername: 'macklinu',
-        keywords: ['fun', 'time'],
+        ...exampleSettings,
+        useTypeScript: false,
+      })
+      const pkg = readFile('package.json')
+      expect(pkg).toMatchSnapshot()
+    })
+    it('fills package.json with correct TS information', async () => {
+      await helpers.run(__dirname).withPrompts({
+        ...exampleSettings,
+        useTypeScript: true,
       })
       const pkg = readFile('package.json')
       expect(pkg).toMatchSnapshot()
@@ -138,6 +155,22 @@ describe('generator:app', () => {
       })
       const pkg = readFile('package.json')
       expect(pkg.author.email).toEqual('git@git.com')
+    })
+    it('uses tsc for TypeScript builds', async () => {
+      await helpers.run(__dirname).withPrompts({
+        ...exampleSettings,
+        useTypeScript: true,
+      })
+      const pkg = readFile('package.json')
+      expect(pkg.scripts.build).toContain('tsc')
+    })
+    it('uses babel for JavaScript builds', async () => {
+      await helpers.run(__dirname).withPrompts({
+        ...exampleSettings,
+        useTypeScript: false,
+      })
+      const pkg = readFile('package.json')
+      expect(pkg.scripts.build).toContain('babel')
     })
   })
 })
