@@ -26,8 +26,7 @@
     "yeoman-generator",
     "generator",
     "boilerplate",
-    "danger",
-    "danger-plugin"
+    "danger"
   ],
   "author": "Macklin Underdown <macklinu@gmail.com>",
   "license": "MIT",

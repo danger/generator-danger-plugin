@@ -137,6 +137,7 @@ export default class extends Generator {
         prettier: 'prettier',
         'prettier-write': 'npm run prettier -- --parser typescript --no-semi --trailing-comma es5 --write --print-width 120',
         'prettier-project': "npm run prettier-write -- 'src/**/*.{ts,tsx}'",
+        lint: 'tslint "src/**/*.ts"',
       })
 
       platformProperties['jest'] = {
@@ -153,6 +154,7 @@ export default class extends Generator {
           'ts-jest': '^20.0.0',
           '@types/jest': '^19.2.4',
           tslint: '^5.4.3',
+          danger: '*',
         },
         defaultPackageJson.devDependencies
       )
@@ -258,13 +260,14 @@ export default class extends Generator {
       }
     })
 
+    const srcOptions = {
+      ...this.props,
+      pluginFunctionName,
+    }
     this.fs.copyTpl(
-      super.templatePath('all/src/**'),
+      this.templatePath('src/*'),
       this.destinationPath('src'),
-      {
-        ...this.props,
-        pluginFunctionName,
-      }
+      srcOptions
     )
 
     if (!this.props.useTypeScript) {

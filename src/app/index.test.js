@@ -68,7 +68,12 @@ describe('generator:app', () => {
       'src/index.test.ts',
       '.vscode/settings.json',
     ])
-    assert.noFile(['src/tsconfig.json', 'src/tslint.json'])
+    assert.noFile([
+      'src/tsconfig.json',
+      'src/tslint.json',
+      'src/index.js',
+      'src/index.test.js',
+    ])
   })
   describe('README.md', () => {
     beforeEach(async () => {
