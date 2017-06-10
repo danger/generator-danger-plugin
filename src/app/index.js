@@ -7,6 +7,8 @@ import rename from 'gulp-rename'
 import githubUrl from 'github-url-from-username-repo'
 import chalk from 'chalk'
 
+import fs from 'fs'
+
 import { defaultEmail, defaultGitHubUsername, defaultName } from './values'
 import * as validators from './validators'
 import { defaultPackageJson } from './defaults'
@@ -86,6 +88,13 @@ export default class extends Generator {
         default: true,
         store: true,
       },
+      {
+        type: 'confirm',
+        name: 'useTypeScript',
+        message: 'Use TypeScript?',
+        default: true,
+        store: true,
+      },
     ])
 
     this.props = {
@@ -144,6 +153,16 @@ export default class extends Generator {
       },
       defaultPackageJson
     )
+
+    if (this.useTypeScript) {
+    } else {
+      const deps = pkg.devDependencies
+      deps['babel-cli'] = '^6.24.1'
+      deps['babel-jest'] = '^20.0.1'
+      deps['babel-preset-env'] = '^1.4.0'
+      deps['typings-tester'] = '^0.2.2'
+    }
+
     this.fs.writeJSON(this.destinationPath('package.json'), pkg)
 
     this.fs.copyTpl(
@@ -201,6 +220,15 @@ export default class extends Generator {
       this.destinationPath('types'),
       { pluginFunctionName }
     )
+  }
+
+  templatePath(path) {
+    const sharedPath = super.templatePath('all/' + path)
+    if (fs.existsSync(sharedPath)) {
+      return sharedPath
+    }
+    const templateFolder = this.useTypeScript ? 'ts/' : 'js/'
+    return super.templatePath(templateFolder + path)
   }
 
   install() {

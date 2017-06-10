@@ -18,9 +18,6 @@ export const defaultPackageJson = {
     node: '>=4.0.0',
   },
   devDependencies: {
-    'babel-cli': '^6.24.1',
-    'babel-jest': '^20.0.1',
-    'babel-preset-env': '^1.4.0',
     commitizen: '^2.9.6',
     'cz-conventional-changelog': '^2.0.0',
     husky: '^0.13.3',
@@ -29,7 +26,6 @@ export const defaultPackageJson = {
     prettier: '^1.3.1',
     'semantic-release': '^6.3.6',
     typescript: '^2.3.2',
-    'typings-tester': '^0.2.2',
     'validate-commit-msg': '^2.12.1',
   },
   optionalDependencies: {

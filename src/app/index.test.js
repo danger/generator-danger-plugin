@@ -21,6 +21,7 @@ describe('generator:app', () => {
       description: 'Danger plugin that tells you to have a fun time',
       authorName: 'Macklin Underdown',
       authorEmail: 'email@example.com',
+      useTypeScript: false,
     })
     assert.file([
       'README.md',
