@@ -23,7 +23,7 @@ $ yo danger-plugin
 
 This will create a new directory ready for Danger plugin development with the following technologies:
 
-* [Babel](https://babeljs.io/)
+* [Babel](https://babeljs.io/) or [TypeScript](http://www.typescriptlang.org)
 * [Jest](http://facebook.github.io/jest/)
 * [semantic-release](https://github.com/semantic-release/semantic-release) for simple NPM package deployment from [Travis CI](https://travis-ci.org/)
 

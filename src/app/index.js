@@ -7,6 +7,8 @@ import rename from 'gulp-rename'
 import githubUrl from 'github-url-from-username-repo'
 import chalk from 'chalk'
 
+import fs from 'fs'
+
 import { defaultEmail, defaultGitHubUsername, defaultName } from './values'
 import * as validators from './validators'
 import { defaultPackageJson } from './defaults'
@@ -15,11 +17,7 @@ const PLUGIN_PREFIX = 'danger-plugin-'
 
 function makeGeneratorName(name) {
   name = _.kebabCase(name)
-
-  if (name.indexOf(PLUGIN_PREFIX) === 0) {
-    this.log(
-      "Adding 'danger-plugin' as a prefix, making it: " + PLUGIN_PREFIX + name
-    )
+  if (!name.startsWith(PLUGIN_PREFIX)) {
     return PLUGIN_PREFIX + name
   }
   return name
@@ -86,6 +84,13 @@ export default class extends Generator {
         default: true,
         store: true,
       },
+      {
+        type: 'confirm',
+        name: 'useTypeScript',
+        message: 'Use TypeScript?',
+        default: true,
+        store: true,
+      },
     ])
 
     this.props = {
@@ -109,18 +114,71 @@ export default class extends Generator {
 
     this.registerTransformStream(
       rename(path => {
+        const extension = this.props.useTypeScript ? '.ts' : '.js'
         if (path.basename === 'index' && !path.extname) {
-          path.extname = '.js'
+          path.extname = extension
         }
 
         if (path.extname === '.test') {
           path.basename += '.test'
-          path.extname = '.js'
+          path.extname = extension
         }
 
         return path
       })
     )
+
+    const platformProperties = {}
+    if (this.props.useTypeScript) {
+      platformProperties[
+        'scripts'
+      ] = Object.assign(defaultPackageJson.scripts, {
+        build: 'tsc',
+        prettier: 'prettier',
+        'prettier-write': 'npm run prettier -- --parser typescript --no-semi --trailing-comma es5 --write --print-width 120',
+        'prettier-project': "npm run prettier-write -- 'src/**/*.{ts,tsx}'",
+        lint: 'tslint "src/**/*.ts"',
+      })
+
+      platformProperties['jest'] = {
+        moduleFileExtensions: ['ts', 'tsx', 'js'],
+        transform: {
+          '.(ts|tsx)': '<rootDir>/node_modules/ts-jest/preprocessor.js',
+        },
+        testRegex: '(.test)\\.(ts|tsx)$',
+        testPathIgnorePatterns: ['\\.snap$', '<rootDir>/node_modules/'],
+      }
+
+      platformProperties['devDependencies'] = Object.assign(
+        {
+          'ts-jest': '^20.0.0',
+          '@types/jest': '^19.2.4',
+          tslint: '^5.4.3',
+          danger: '*',
+        },
+        defaultPackageJson.devDependencies
+      )
+
+      platformProperties['lint-staged'] = {
+        '*.@(ts|tsx)': ['tslint --fix', 'npm run prettier-write --', 'git add'],
+      }
+    } else {
+      platformProperties[
+        'scripts'
+      ] = Object.assign(defaultPackageJson.scripts, {
+        build: 'babel src --out-dir dist --ignore *.test.js',
+      })
+
+      platformProperties['devDependencies'] = Object.assign(
+        {
+          'babel-cli': '^6.24.1',
+          'babel-jest': '^20.0.1',
+          'babel-preset-env': '^1.4.0',
+          'typings-tester': '^0.2.2',
+        },
+        defaultPackageJson.devDependencies
+      )
+    }
 
     const pkg = Object.assign(
       {
@@ -142,14 +200,21 @@ export default class extends Generator {
           ['danger', 'danger-plugin'].concat(this.props.keywords || [])
         ),
       },
-      defaultPackageJson
+      defaultPackageJson,
+      platformProperties
     )
+
     this.fs.writeJSON(this.destinationPath('package.json'), pkg)
 
     this.fs.copyTpl(
       this.templatePath('README.md'),
       this.destinationPath('README.md'),
-      { ...this.props, pluginFunctionName, githubBaseUrl, repoSlug }
+      {
+        ...this.props,
+        pluginFunctionName,
+        githubBaseUrl,
+        repoSlug,
+      }
     )
 
     this.fs.copy(
@@ -166,41 +231,61 @@ export default class extends Generator {
     this.fs.copyTpl(
       this.templatePath('LICENSE.md'),
       this.destinationPath('LICENSE.md'),
-      { year: new Date().getUTCFullYear(), authorName: this.props.authorName }
+      {
+        year: new Date().getUTCFullYear(),
+        authorName: this.props.authorName,
+      }
     )
 
-    this.fs.copy(
-      this.templatePath('editorconfig'),
-      this.destinationPath('.editorconfig')
-    )
-
-    this.fs.copy(
-      this.templatePath('gitignore'),
-      this.destinationPath('.gitignore')
-    )
-
-    this.fs.copy(
-      this.templatePath('npmignore'),
-      this.destinationPath('.npmignore')
-    )
-
-    this.fs.copy(
-      this.templatePath('esdoc.json'),
-      this.destinationPath('.esdoc.json')
-    )
-
-    this.fs.copy(this.templatePath('babelrc'), this.destinationPath('.babelrc'))
-
-    this.fs.copyTpl(this.templatePath('src/**'), this.destinationPath('src'), {
-      ...this.props,
-      pluginFunctionName,
+    const prependDots = [
+      'editorconfig',
+      'gitignore',
+      'esdoc.json',
+      'babelrc',
+      'npmignore',
+      'vscode',
+    ]
+    prependDots.forEach(file => {
+      const path = this.templatePath(file)
+      if (fs.existsSync(path)) {
+        this.fs.copy(path, this.destinationPath('.' + file))
+      }
     })
 
+    const moveWithoutDot = ['tsconfig.json', 'tslint.json']
+    moveWithoutDot.forEach(file => {
+      const path = this.templatePath(file)
+      if (fs.existsSync(path)) {
+        this.fs.copy(path, this.destinationPath(file))
+      }
+    })
+
+    const srcOptions = {
+      ...this.props,
+      pluginFunctionName,
+    }
     this.fs.copyTpl(
-      this.templatePath('types/**'),
-      this.destinationPath('types'),
-      { pluginFunctionName }
+      this.templatePath('src/*'),
+      this.destinationPath('src'),
+      srcOptions
     )
+
+    if (!this.props.useTypeScript) {
+      this.fs.copyTpl(
+        this.templatePath('types/**'),
+        this.destinationPath('types'),
+        { pluginFunctionName }
+      )
+    }
+  }
+
+  templatePath(path) {
+    const sharedPath = super.templatePath('all/' + path)
+    if (fs.existsSync(sharedPath)) {
+      return sharedPath
+    }
+    const templateFolder = this.props.useTypeScript ? 'ts/' : 'js/'
+    return super.templatePath(templateFolder + path)
   }
 
   install() {

@@ -61,42 +61,7 @@ THE SOFTWARE IS PROVIDED \\"AS IS\\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 "
 `;
 
-exports[`generator:app README.md contains plugin name 1`] = `
-"# danger-plugin-fun-time
-
-[![Build Status](https://travis-ci.org/macklinu/danger-plugin-fun-time.svg?branch=master)](https://travis-ci.org/macklinu/danger-plugin-fun-time)
-[![npm version](https://badge.fury.io/js/danger-plugin-fun-time.svg)](https://badge.fury.io/js/danger-plugin-fun-time)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-
-> Danger plugin that tells you to have a fun time
-
-## Usage
-
-Install:
-
-\`\`\`sh
-yarn add danger-plugin-fun-time --dev
-\`\`\`
-
-At a glance:
-
-\`\`\`js
-// dangerfile.js
-import funTime from 'danger-plugin-fun-time'
-
-funTime()
-\`\`\`
-## Changelog
-
-See the GitHub [release history](https://github.com/macklinu/danger-plugin-fun-time/releases).
-
-## Contributing
-
-See [CONTRIBUTING.md](contributing.md).
-"
-`;
-
-exports[`generator:app package.json fills package.json with correct information 1`] = `
+exports[`generator:app package.json fills package.json with correct JS information 1`] = `
 Object {
   "author": Object {
     "email": "email@example.com",
@@ -157,9 +122,105 @@ Object {
     "commit": "git-cz",
     "commitmsg": "validate-commit-msg",
     "docs": "esdoc -c .esdoc.json",
+    "lint": "tslint \\"src/**/*.ts\\"",
     "precommit": "lint-staged",
     "predocs": "rm -rf docs/",
     "prepublish": "npm run build",
+    "prettier": "prettier",
+    "prettier-project": "npm run prettier-write -- 'src/**/*.{ts,tsx}'",
+    "prettier-write": "npm run prettier -- --parser typescript --no-semi --trailing-comma es5 --write --print-width 120",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "test": "jest",
+  },
+  "types": "types/index.d.ts",
+  "version": "0.0.0-development",
+}
+`;
+
+exports[`generator:app package.json fills package.json with correct TS information 1`] = `
+Object {
+  "author": Object {
+    "email": "email@example.com",
+    "name": "Macklin Underdown",
+  },
+  "bugs": Object {
+    "url": "https://github.com/macklinu/danger-plugin-fun-time/issues",
+  },
+  "config": Object {
+    "commitizen": Object {
+      "path": "cz-conventional-changelog",
+    },
+  },
+  "description": "Danger plugin that tells you to have a fun time",
+  "devDependencies": Object {
+    "@types/jest": "^19.2.4",
+    "commitizen": "^2.9.6",
+    "cz-conventional-changelog": "^2.0.0",
+    "danger": "*",
+    "husky": "^0.13.3",
+    "jest": "^20.0.1",
+    "lint-staged": "^3.4.1",
+    "prettier": "^1.3.1",
+    "semantic-release": "^6.3.6",
+    "ts-jest": "^20.0.0",
+    "tslint": "^5.4.3",
+    "typescript": "^2.3.2",
+    "validate-commit-msg": "^2.12.1",
+  },
+  "engines": Object {
+    "node": ">=4.0.0",
+  },
+  "homepage": "https://github.com/macklinu/danger-plugin-fun-time#readme",
+  "jest": Object {
+    "moduleFileExtensions": Array [
+      "ts",
+      "tsx",
+      "js",
+    ],
+    "testPathIgnorePatterns": Array [
+      "\\\\.snap$",
+      "<rootDir>/node_modules/",
+    ],
+    "testRegex": "(.test)\\\\.(ts|tsx)$",
+    "transform": Object {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js",
+    },
+  },
+  "keywords": Array [
+    "danger",
+    "danger-plugin",
+    "fun",
+    "time",
+  ],
+  "license": "MIT",
+  "lint-staged": Object {
+    "*.@(ts|tsx)": Array [
+      "tslint --fix",
+      "npm run prettier-write --",
+      "git add",
+    ],
+  },
+  "main": "dist/index.js",
+  "name": "danger-plugin-fun-time",
+  "optionalDependencies": Object {
+    "esdoc": "^0.5.2",
+  },
+  "repository": Object {
+    "type": "git",
+    "url": "https://github.com/macklinu/danger-plugin-fun-time.git",
+  },
+  "scripts": Object {
+    "build": "tsc",
+    "commit": "git-cz",
+    "commitmsg": "validate-commit-msg",
+    "docs": "esdoc -c .esdoc.json",
+    "lint": "tslint \\"src/**/*.ts\\"",
+    "precommit": "lint-staged",
+    "predocs": "rm -rf docs/",
+    "prepublish": "npm run build",
+    "prettier": "prettier",
+    "prettier-project": "npm run prettier-write -- 'src/**/*.{ts,tsx}'",
+    "prettier-write": "npm run prettier -- --parser typescript --no-semi --trailing-comma es5 --write --print-width 120",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "jest",
   },
@@ -186,13 +247,13 @@ exports[`generator:app src/ generates test file based on plugin name 1`] = `
 `;
 
 exports[`generator:app types/ generates TypeScript test file 1`] = `
-"import jestTestRunner from './'
+"import funTime from './'
 
-jestTestRunner()
+funTime()
 "
 `;
 
 exports[`generator:app types/ generates TypeScript type defintion 1`] = `
-"export default function jestTestRunner(): void
+"export default function funTime(): void
 "
 `;
