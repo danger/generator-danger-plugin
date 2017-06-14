@@ -33,6 +33,14 @@ Once the directory is bootstrapped and dependencies are installed (with [Yarn](h
 
 See the GitHub [release history](https://github.com/macklinu/generator-danger-plugin/releases).
 
-## Contributing
+## License, Contributor's Guidelines and Code of Conduct
 
-See [CONTRIBUTING.md](contributing.md). :heart:
+See [CONTRIBUTING.md](contributing.md) for more information about contributing to this project.
+
+We try to keep as much discussion as possible in GitHub issues, but also have a pretty inactive Slack -- if you'd like an invite, ping [@Orta](https://twitter.com/orta/) a DM on Twitter with your email. It's mostly interesting if you want to stay on top of Danger without all the emails from GitHub.
+
+> This project is open source under the MIT license, which means you have full access to the source code and can modify it to fit your own needs.
+>
+> This project subscribes to the [Moya Contributors Guidelines](https://github.com/Moya/contributors) which TLDR: means we give out push access easily and often.
+>
+> Contributors subscribe to the [Contributor Code of Conduct](http://contributor-covenant.org/version/1/3/0/) based on the [Contributor Covenant](http://contributor-covenant.org) version 1.3.0.
