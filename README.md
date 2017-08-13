@@ -35,7 +35,7 @@ See the GitHub [release history](https://github.com/macklinu/generator-danger-pl
 
 ## License, Contributor's Guidelines and Code of Conduct
 
-See [CONTRIBUTING.md](contributing.md) for more information about contributing to this project.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more information about contributing to this project.
 
 We try to keep as much discussion as possible in GitHub issues, but also have a pretty inactive Slack -- if you'd like an invite, ping [@Orta](https://twitter.com/orta/) a DM on Twitter with your email. It's mostly interesting if you want to stay on top of Danger without all the emails from GitHub.
 

@@ -28,4 +28,4 @@ See the GitHub [release history](<%= githubBaseUrl %>/releases).
 
 ## Contributing
 
-See [CONTRIBUTING.md](contributing.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md).
