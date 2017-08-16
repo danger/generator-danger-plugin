@@ -158,6 +158,7 @@ export default class extends Generator {
         },
         defaultPackageJson.devDependencies
       )
+      platformProperties["types"] ='dist/index.d.ts',
 
       platformProperties['lint-staged'] = {
         '*.@(ts|tsx)': ['tslint --fix', 'npm run prettier-write --', 'git add'],
