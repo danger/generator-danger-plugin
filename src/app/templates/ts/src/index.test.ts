@@ -17,7 +17,7 @@ describe("<%= pluginFunctionName %>()", () => {
     global.markdown = undefined
   })
 
-  it("Checks for a that message has been called", () => {
+  it("Checks that message has been called", () => {
     global.danger = {
       github: { pr: { title: "My Test Title" } },
     }

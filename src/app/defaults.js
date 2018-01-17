@@ -1,7 +1,6 @@
 export const defaultPackageJson = {
   version: '0.0.0-development',
   main: 'dist/index.js',
-  types: 'types/index.d.ts',
   scripts: {
     precommit: 'lint-staged',
     commit: 'git-cz',

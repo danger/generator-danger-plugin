@@ -132,7 +132,6 @@ Object {
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "jest",
   },
-  "types": "types/index.d.ts",
   "version": "0.0.0-development",
 }
 `;
@@ -224,7 +223,7 @@ Object {
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "jest",
   },
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "version": "0.0.0-development",
 }
 `;
