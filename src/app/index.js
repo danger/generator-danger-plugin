@@ -151,18 +151,19 @@ export default class extends Generator {
 
       platformProperties['devDependencies'] = Object.assign(
         {
-          'ts-jest': '^20.0.0',
           '@types/jest': '^19.2.4',
-          tslint: '^5.4.3',
+          '@types/node': '^12.7.12',
           danger: '*',
+          'ts-jest': '^20.0.0',
+          tslint: '^5.4.3',
         },
         defaultPackageJson.devDependencies
       )
-      platformProperties["types"] ='dist/index.d.ts',
-
-      platformProperties['lint-staged'] = {
+      ;(platformProperties['types'] = 'dist/index.d.ts'), (platformProperties[
+        'lint-staged'
+      ] = {
         '*.@(ts|tsx)': ['tslint --fix', 'npm run prettier-write --', 'git add'],
-      }
+      })
     } else {
       platformProperties[
         'scripts'

@@ -24,7 +24,7 @@ export const defaultPackageJson = {
     'lint-staged': '^3.4.1',
     prettier: '^1.3.1',
     'semantic-release': '^6.3.6',
-    typescript: '^2.3.2',
+    typescript: '^3.6.4',
     'validate-commit-msg': '^2.12.1',
   },
   optionalDependencies: {
