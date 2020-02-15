@@ -177,9 +177,10 @@ export default class extends Generator {
 
       platformProperties['devDependencies'] = Object.assign(
         {
-          'babel-cli': '^6.24.1',
+          '@babel/cli': '^7.0.0',
+          '@babel/core': '^7.0.0',
+          '@babel/preset-env': '^7.0.0',
           'babel-jest': '^25.1.0',
-          'babel-preset-env': '^1.4.0',
           'typings-tester': '^0.3.2',
         },
         defaultPackageJson.devDependencies

@@ -77,9 +77,10 @@ Object {
   },
   "description": "Danger plugin that tells you to have a fun time",
   "devDependencies": Object {
-    "babel-cli": "^6.24.1",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "babel-jest": "^25.1.0",
-    "babel-preset-env": "^1.4.0",
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.1.0",
     "esdoc": "^1.1.0",
@@ -94,7 +95,7 @@ Object {
     "validate-commit-msg": "^2.14.0",
   },
   "engines": Object {
-    "node": ">=4.0.0",
+    "node": ">=10.0.0",
   },
   "homepage": "https://github.com/macklinu/danger-plugin-fun-time#readme",
   "husky": Object {
@@ -173,7 +174,7 @@ Object {
     "validate-commit-msg": "^2.14.0",
   },
   "engines": Object {
-    "node": ">=4.0.0",
+    "node": ">=10.0.0",
   },
   "homepage": "https://github.com/macklinu/danger-plugin-fun-time#readme",
   "husky": Object {
