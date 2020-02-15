@@ -63,7 +63,8 @@
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "<rootDir>/app/src/templates"
+      "generators",
+      "<rootDir>/src/app/templates"
     ]
   },
   "config": {
