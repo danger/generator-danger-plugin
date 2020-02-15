@@ -10,10 +10,8 @@ node_js:
   - '10'
   - '12'
   - node
-before_script:
-  - npm prune
 after_success:
-  - npm run semantic-release
+  - yarn semantic-release
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
