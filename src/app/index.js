@@ -53,7 +53,9 @@ export default class extends Generator {
       {
         type: 'input',
         name: 'keywords',
-        message: `Any additional package keywords (besides ${chalk.yellow('danger')} and ${chalk.yellow('danger-plugin')})?`,
+        message: `Any additional package keywords (besides ${chalk.yellow(
+          'danger'
+        )} and ${chalk.yellow('danger-plugin')})?`,
         filter: words => words.split(/\s*,\s*/g),
       },
       {
@@ -130,15 +132,17 @@ export default class extends Generator {
 
     const platformProperties = {}
     if (this.props.useTypeScript) {
-      platformProperties[
-        'scripts'
-      ] = Object.assign(defaultPackageJson.scripts, {
-        build: 'tsc',
-        prettier: 'prettier',
-        'prettier-write': 'npm run prettier -- --parser typescript --no-semi --trailing-comma es5 --write --print-width 120',
-        'prettier-project': "npm run prettier-write -- 'src/**/*.{ts,tsx}'",
-        lint: 'tslint "src/**/*.ts"',
-      })
+      platformProperties['scripts'] = Object.assign(
+        defaultPackageJson.scripts,
+        {
+          build: 'tsc',
+          prettier: 'prettier',
+          'prettier-write':
+            'npm run prettier -- --parser typescript --no-semi --trailing-comma es5 --write --print-width 120',
+          'prettier-project': "npm run prettier-write -- 'src/**/*.{ts,tsx}'",
+          lint: 'tslint "src/**/*.ts"',
+        }
+      )
 
       platformProperties['jest'] = {
         moduleFileExtensions: ['ts', 'tsx', 'js'],
@@ -159,17 +163,21 @@ export default class extends Generator {
         },
         defaultPackageJson.devDependencies
       )
-      ;(platformProperties['types'] = 'dist/index.d.ts'), (platformProperties[
-        'lint-staged'
-      ] = {
-        '*.@(ts|tsx)': ['tslint --fix', 'npm run prettier-write --', 'git add'],
-      })
+      ;(platformProperties['types'] = 'dist/index.d.ts'),
+        (platformProperties['lint-staged'] = {
+          '*.@(ts|tsx)': [
+            'tslint --fix',
+            'npm run prettier-write --',
+            'git add',
+          ],
+        })
     } else {
-      platformProperties[
-        'scripts'
-      ] = Object.assign(defaultPackageJson.scripts, {
-        build: 'babel src --out-dir dist --ignore *.test.js',
-      })
+      platformProperties['scripts'] = Object.assign(
+        defaultPackageJson.scripts,
+        {
+          build: 'babel src --out-dir dist --ignore *.test.js',
+        }
+      )
 
       platformProperties['devDependencies'] = Object.assign(
         {
