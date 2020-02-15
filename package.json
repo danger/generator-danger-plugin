@@ -16,7 +16,8 @@
     "commit": "git-cz",
     "test": "jest",
     "build": "babel src -d generators --ignore test.js,__snapshots__ --copy-files",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "semantic-release": "semantic-release"
   },
   "keywords": [
     "yeoman",
@@ -44,7 +45,6 @@
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1",
     "semantic-release": "^17.0.3",
-    "typescript": "^3.6.4",
     "validate-commit-msg": "^2.14.0",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.6.0"
