@@ -10,7 +10,7 @@
     "yarn.lock"
   ],
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=10.0.0"
   },
   "scripts": {
     "commit": "git-cz",
@@ -39,7 +39,7 @@
     "@babel/preset-env": "^7.0.0",
     "babel-jest": "^25.1.0",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "commitizen": "^3.1.2",
+    "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.1.0",
     "husky": "^4.2.3",
     "jest": "^25.1.0",

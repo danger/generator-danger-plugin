@@ -12,7 +12,7 @@ export const defaultPackageJson = {
   },
   license: 'MIT',
   engines: {
-    node: '>=4.0.0',
+    node: '>=10.0.0',
   },
   devDependencies: {
     commitizen: '^4.0.3',
