@@ -155,21 +155,17 @@ export default class extends Generator {
 
       platformProperties['devDependencies'] = Object.assign(
         {
-          '@types/jest': '^19.2.4',
+          '@types/jest': '^25.1.2',
           '@types/node': '^12.7.12',
           danger: '*',
-          'ts-jest': '^20.0.0',
-          tslint: '^5.4.3',
+          'ts-jest': '^25.1.0',
+          tslint: '^6.0.0',
         },
         defaultPackageJson.devDependencies
       )
       ;(platformProperties['types'] = 'dist/index.d.ts'),
         (platformProperties['lint-staged'] = {
-          '*.@(ts|tsx)': [
-            'tslint --fix',
-            'npm run prettier-write --',
-            'git add',
-          ],
+          '*.@(ts|tsx)': ['tslint --fix', 'npm run prettier-write --'],
         })
     } else {
       platformProperties['scripts'] = Object.assign(
@@ -182,9 +178,9 @@ export default class extends Generator {
       platformProperties['devDependencies'] = Object.assign(
         {
           'babel-cli': '^6.24.1',
-          'babel-jest': '^20.0.1',
+          'babel-jest': '^25.1.0',
           'babel-preset-env': '^1.4.0',
-          'typings-tester': '^0.2.2',
+          'typings-tester': '^0.3.2',
         },
         defaultPackageJson.devDependencies
       )
