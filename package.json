@@ -16,7 +16,7 @@
     "commit": "git-cz",
     "test": "jest",
     "build": "babel src -d generators --ignore test.js,__snapshots__ --copy-files",
-    "prepare": "npm run build",
+    "prepare": "yarn build",
     "semantic-release": "semantic-release"
   },
   "keywords": [
@@ -30,7 +30,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/macklinu/generator-danger-plugin.git"
+    "url": "https://github.com/danger/generator-danger-plugin.git"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
