@@ -2,14 +2,17 @@
   "sourceMaps": "inline",
   "retainLines": true,
   "presets": [
-    ["env", {
-      "targets": {
-        "node": 6
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": 10
+        }
       }
-    }],
-    "stage-2"
+    ]
   ],
   "plugins": [
-    "add-module-exports"
+    "add-module-exports",
+    "@babel/plugin-proposal-class-properties"
   ]
 }

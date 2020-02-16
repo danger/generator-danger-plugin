@@ -53,7 +53,9 @@ export default class extends Generator {
       {
         type: 'input',
         name: 'keywords',
-        message: `Any additional package keywords (besides ${chalk.yellow('danger')} and ${chalk.yellow('danger-plugin')})?`,
+        message: `Any additional package keywords (besides ${chalk.yellow(
+          'danger'
+        )} and ${chalk.yellow('danger-plugin')})?`,
         filter: words => words.split(/\s*,\s*/g),
       },
       {
@@ -130,15 +132,17 @@ export default class extends Generator {
 
     const platformProperties = {}
     if (this.props.useTypeScript) {
-      platformProperties[
-        'scripts'
-      ] = Object.assign(defaultPackageJson.scripts, {
-        build: 'tsc',
-        prettier: 'prettier',
-        'prettier-write': 'npm run prettier -- --parser typescript --no-semi --trailing-comma es5 --write --print-width 120',
-        'prettier-project': "npm run prettier-write -- 'src/**/*.{ts,tsx}'",
-        lint: 'tslint "src/**/*.ts"',
-      })
+      platformProperties['scripts'] = Object.assign(
+        defaultPackageJson.scripts,
+        {
+          build: 'tsc',
+          prettier: 'prettier',
+          'prettier-write':
+            'npm run prettier -- --parser typescript --no-semi --trailing-comma es5 --write --print-width 120',
+          'prettier-project': "npm run prettier-write -- 'src/**/*.{ts,tsx}'",
+          lint: 'tslint "src/**/*.ts"',
+        }
+      )
 
       platformProperties['jest'] = {
         moduleFileExtensions: ['ts', 'tsx', 'js'],
@@ -151,31 +155,33 @@ export default class extends Generator {
 
       platformProperties['devDependencies'] = Object.assign(
         {
-          'ts-jest': '^20.0.0',
-          '@types/jest': '^19.2.4',
-          tslint: '^5.4.3',
+          '@types/jest': '^25.1.2',
+          '@types/node': '^12.7.12',
           danger: '*',
+          'ts-jest': '^25.1.0',
+          tslint: '^6.0.0',
         },
         defaultPackageJson.devDependencies
       )
-      platformProperties["types"] ='dist/index.d.ts',
-
-      platformProperties['lint-staged'] = {
-        '*.@(ts|tsx)': ['tslint --fix', 'npm run prettier-write --', 'git add'],
-      }
+      ;(platformProperties['types'] = 'dist/index.d.ts'),
+        (platformProperties['lint-staged'] = {
+          '*.@(ts|tsx)': ['tslint --fix', 'npm run prettier-write --'],
+        })
     } else {
-      platformProperties[
-        'scripts'
-      ] = Object.assign(defaultPackageJson.scripts, {
-        build: 'babel src --out-dir dist --ignore *.test.js',
-      })
+      platformProperties['scripts'] = Object.assign(
+        defaultPackageJson.scripts,
+        {
+          build: 'babel src --out-dir dist --ignore *.test.js',
+        }
+      )
 
       platformProperties['devDependencies'] = Object.assign(
         {
-          'babel-cli': '^6.24.1',
-          'babel-jest': '^20.0.1',
-          'babel-preset-env': '^1.4.0',
-          'typings-tester': '^0.2.2',
+          '@babel/cli': '^7.0.0',
+          '@babel/core': '^7.0.0',
+          '@babel/preset-env': '^7.0.0',
+          'babel-jest': '^25.1.0',
+          'typings-tester': '^0.3.2',
         },
         defaultPackageJson.devDependencies
       )
